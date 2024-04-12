@@ -1,6 +1,8 @@
 import { useEffect, useState } from "react";
 import { AddToDoForm } from "./AddToDoForm/AddToDoForm";
 import { ToDoList } from "./ToDoList/ToDoList";
+import { MainStyled } from "./GlobalStyles";
+import { toastError, toastSuccess } from "../services/toastNotifications";
 
 const STORAGE_KEY = "toDos";
 
@@ -8,7 +10,6 @@ function App() {
   const [toDos, setToDos] = useState(
     () => JSON.parse(window.localStorage.getItem(STORAGE_KEY)) ?? []
   );
-  console.log(toDos);
 
   useEffect(() => {
     window.localStorage.setItem(STORAGE_KEY, JSON.stringify(toDos));
@@ -16,10 +17,11 @@ function App() {
 
   const handleAddToDo = (toDo) => {
     if (toDos.find((item) => item.title === toDo.title)) {
-      alert("ToDo already exists");
+      toastError("ToDo already exists!");
       return;
     }
 
+    toastSuccess(`${toDo.title} toDo successfully added!`);
     setToDos((prevState) => [...prevState, toDo]);
   };
 
@@ -32,22 +34,24 @@ function App() {
   const handleDeleteToDo = (title) => {
     const filteredToDos = toDos.filter((item) => item.title !== title);
     setToDos([...filteredToDos]);
+    toastSuccess(`${title} toDo was deleted`);
   };
 
   const handleEditToDo = (title, changes) => {
     const currentToDoIndex = toDos.findIndex((item) => item.title === title);
     toDos[currentToDoIndex] = { ...toDos[currentToDoIndex], ...changes };
     setToDos([...toDos]);
+    toastSuccess(`${title} toDo was edited`);
   };
 
   const updateToDos = () => {
     setToDos([...toDos]);
-  }
+  };
 
   return (
-    <main>
-      <section>
-        <h1>ToDo Manager</h1>
+    <MainStyled>
+      <section className="section">
+        <h1 className="section-title">ToDo Manager</h1>
         <AddToDoForm addToDo={handleAddToDo} />
         {toDos.length !== 0 && (
           <ToDoList
@@ -59,7 +63,7 @@ function App() {
           />
         )}
       </section>
-    </main>
+    </MainStyled>
   );
 }
 

@@ -1,4 +1,5 @@
 import { useState } from "react";
+import { AddFormStyled } from "./AddToDoForm.styled";
 
 export const AddToDoForm = ({ addToDo }) => {
   const [title, setTitle] = useState("");
@@ -17,28 +18,28 @@ export const AddToDoForm = ({ addToDo }) => {
   };
 
   return (
-    <form onSubmit={handleSubmit}>
-      <label>
+    <AddFormStyled onSubmit={handleSubmit}>
+      <label className="form-label">
         <span>ToDo title</span>
         <input
           type="text"
           name="title"
+          className="form-input"
           required
           value={title}
           onChange={(e) => setTitle(e.target.value)}
         />
       </label>
-      <label>
+      <label className="form-label">
         <span>Description</span>
         <textarea
           name="description"
-          cols="30"
-          rows="10"
+          className="form-textarea form-input"
           value={description}
           onChange={(e) => setDescription(e.target.value)}
         ></textarea>
       </label>
-      <button type="submit">Add ToDo</button>
-    </form>
+      <button type="submit" className="form-submit">Add ToDo</button>
+    </AddFormStyled>
   );
 };

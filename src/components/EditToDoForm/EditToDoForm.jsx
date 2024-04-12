@@ -1,4 +1,5 @@
 import { useState } from "react";
+import { EditFormStyled } from "./EditToDoForm.styled";
 
 export const EditToDoForm = ({
   toDoTitle,
@@ -19,28 +20,30 @@ export const EditToDoForm = ({
   };
 
   return (
-    <form onSubmit={handleSubmit}>
-      <label>
+    <EditFormStyled onSubmit={handleSubmit}>
+      <label className="form-label">
         <span>ToDo title</span>
         <input
           type="text"
           name="title"
+          className="form-input"
           required
           value={title}
           onChange={(e) => setTitle(e.target.value)}
         />
       </label>
-      <label>
+      <label className="form-label">
         <span>Description</span>
         <textarea
           name="description"
-          cols="30"
-          rows="10"
+          className="form-input form-textarea"
           value={description}
           onChange={(e) => setDescription(e.target.value)}
         ></textarea>
       </label>
-      <button type="submit" disabled={isDisabled} >Edit ToDo</button>
-    </form>
+      <button className="form-submit" type="submit" disabled={isDisabled}>
+        Edit ToDo
+      </button>
+    </EditFormStyled>
   );
 };

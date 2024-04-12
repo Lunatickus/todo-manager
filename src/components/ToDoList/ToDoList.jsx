@@ -1,4 +1,5 @@
 import { ToDoListItem } from "../ToDoListItem/ToDoListItem";
+import { ToDoListStyled } from "./ToDoList.styled";
 
 export const ToDoList = ({
   toDos,
@@ -9,7 +10,7 @@ export const ToDoList = ({
   completed,
 }) => {
   return (
-    <ul>
+    <ToDoListStyled>
       {toDos.map((toDo) => {
         if (completed) {
           toDo.isDone = completed;
@@ -26,6 +27,6 @@ export const ToDoList = ({
           />
         );
       })}
-    </ul>
+    </ToDoListStyled>
   );
 };

@@ -3,6 +3,8 @@ import { Modal } from "../Modal/Modal";
 import { EditToDoForm } from "../EditToDoForm/EditToDoForm";
 import { AddToDoForm } from "../AddToDoForm/AddToDoForm";
 import { ToDoList } from "../ToDoList/ToDoList";
+import { ToDoItemStyled } from "./ToDoListItem.styled";
+import { toastError, toastSuccess } from "../../services/toastNotifications";
 
 export const ToDoListItem = ({
   item,
@@ -18,11 +20,12 @@ export const ToDoListItem = ({
 
   const handleAddToDo = (toDo) => {
     if (subToDos.find((item) => item.title === toDo.title)) {
-      alert("ToDo already exists");
+      toastError("ToDo already exists!");
       return;
     }
 
     subToDos.push(toDo);
+    toastSuccess(`${toDo.title} toDo successfully added!`);
     updateToDos();
     setIsAddModalOpen(false);
   };
@@ -37,33 +40,55 @@ export const ToDoListItem = ({
     const currentToDoIndex = subToDos.findIndex((item) => item.title === title);
     subToDos.splice(currentToDoIndex, 1);
     updateToDos();
+    toastSuccess(`${title} toDo was deleted`);
   };
 
   const handleEditToDo = (title, changes) => {
     const currentToDoIndex = subToDos.findIndex((item) => item.title === title);
     subToDos[currentToDoIndex] = { ...subToDos[currentToDoIndex], ...changes };
     updateToDos();
+    toastSuccess(`${title} toDo was edited`);
   };
 
   return (
-    <li>
-      <h3>{title}</h3>
-      <p>Done</p>
-      <input
-        type="checkbox"
-        checked={isDone}
-        onChange={() => changeToDoStatus(title)}
-      />
-      {description && <p>{description}</p>}
-      <button type="button" onClick={() => setIsEditModalOpen(true)}>
-        Edit ToDo
-      </button>
-      <button type="button" onClick={() => removeToDo(title)}>
-        Delete ToDo
-      </button>
-      <button type="button" onClick={() => setIsAddModalOpen(true)}>
-        Add SubToDo
-      </button>
+    <ToDoItemStyled>
+      <div className="title-wrapper">
+        <h3 className="item-title">{title}</h3>
+        <div className="checkbox-wrapper">
+          <p className="item-text">Done</p>
+          <input
+            type="checkbox"
+            checked={isDone}
+            onChange={() => changeToDoStatus(title)}
+          />
+        </div>
+      </div>
+      {description && (
+        <p className="item-text item-description">{description}</p>
+      )}
+      <div className="item-btn-wrapper">
+        <button
+          type="button"
+          onClick={() => setIsEditModalOpen(true)}
+          className="item-btn"
+        >
+          Edit ToDo
+        </button>
+        <button
+          type="button"
+          onClick={() => removeToDo(title)}
+          className="item-btn"
+        >
+          Delete ToDo
+        </button>
+        <button
+          type="button"
+          onClick={() => setIsAddModalOpen(true)}
+          className="item-btn"
+        >
+          Add SubToDo
+        </button>
+      </div>
       {subToDos.length !== 0 && (
         <ToDoList
           toDos={subToDos}
@@ -86,11 +111,9 @@ export const ToDoListItem = ({
       )}
       {isAddModalOpen && (
         <Modal closeModal={() => setIsAddModalOpen(false)}>
-          <AddToDoForm
-            addToDo={handleAddToDo}
-          />
+          <AddToDoForm addToDo={handleAddToDo} />
         </Modal>
       )}
-    </li>
+    </ToDoItemStyled>
   );
 };
