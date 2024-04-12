@@ -1,6 +1,6 @@
 {
-  "name": "vite-deploy",
-  "homepage": "https://lunatickus.github.io/vite-deploy/",
+  "name": "todo-manager",
+  "homepage": "https://lunatickus.github.io/todo-manager/",
   "private": true,
   "version": "0.0.0",
   "type": "module",
@@ -12,7 +12,8 @@
   },
   "dependencies": {
     "react": "^18.2.0",
-    "react-dom": "^18.2.0"
+    "react-dom": "^18.2.0",
+    "styled-components": "^6.1.8"
   },
   "devDependencies": {
     "@svgr/rollup": "^8.1.0",
