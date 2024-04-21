@@ -7,18 +7,13 @@ export const ToDoList = ({
   removeToDo,
   editToDo,
   updateToDos,
-  completed,
 }) => {
   return (
     <ToDoListStyled>
       {toDos.map((toDo) => {
-        if (completed) {
-          toDo.isDone = completed;
-        }
-
         return (
           <ToDoListItem
-            key={toDo.title}
+            key={toDo.id}
             item={toDo}
             changeToDoStatus={changeToDoStatus}
             removeToDo={removeToDo}

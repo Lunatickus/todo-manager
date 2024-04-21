@@ -3,18 +3,10 @@ import { toastError } from "./toastNotifications";
 
 axios.defaults.baseURL = "http://localhost:3000";
 
-const setAuthHeader = (token) => {
-  axios.defaults.headers.common.Authorization = `Bearer ${token}`;
-};
-
-const clearAuthHeader = () => {
-  axios.defaults.headers.common.Authorization = "";
-};
-
-export const register = async (user) => {
+export const signUp = async (user) => {
   try {
     const { data } = await axios.post("/auth/register", user);
-    setAuthHeader(data.token);
+
     return data;
   } catch (error) {
     toastError("User already exist");
@@ -25,7 +17,7 @@ export const register = async (user) => {
 export const login = async (user) => {
   try {
     const { data } = await axios.post("/auth/login", user);
-    setAuthHeader(data.token);
+
     return data;
   } catch (error) {
     toastError("User already exist");
@@ -33,10 +25,8 @@ export const login = async (user) => {
   }
 };
 
-export const refresh = async (user) => {
-  if (!user) return null;
+export const refresh = async () => {
   try {
-    setAuthHeader(user.token);
     const { data } = await axios.get("/auth/current");
     return data;
   } catch (error) {
@@ -48,7 +38,6 @@ export const refresh = async (user) => {
 export const logout = async () => {
   try {
     await axios.post("/auth/logout");
-    clearAuthHeader();
   } catch (error) {
     console.log(error);
   }
@@ -56,8 +45,25 @@ export const logout = async () => {
 
 export const fetchToDos = async () => {
   try {
-    const { data } = await axios.get("/to-dos/parents");
+    const { data } = await axios.get("/to-dos");
     return data;
+  } catch (error) {
+    console.log(error);
+  }
+};
+
+export const addToDo = async (toDo) => {
+  try {
+    const { data } = await axios.post("/to-dos", toDo);
+    return data;
+  } catch (error) {
+    console.log(error);
+  }
+};
+
+export const deleteToDo = async (id) => {
+  try {
+    await axios.delete(`/to-dos/${id}`);
   } catch (error) {
     console.log(error);
   }

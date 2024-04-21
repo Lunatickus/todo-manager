@@ -1,15 +1,17 @@
 import { NavLink } from "react-router-dom";
 import { UserMenu } from "../UserMenu/UserMenu";
-import { useUser } from "../../hooks/useUser";
+import { useSelector } from "react-redux";
+import { selectUser } from "../../redux/auth/auth.selectors";
 
 export const Header = () => {
-  const { user } = useUser();
+  const user = useSelector(selectUser);
+  const email = user.email;
 
   return (
     <header>
       <nav>
         <ul>
-          {!user && (
+          {!email && (
             <>
               <li>
                 <NavLink to="register">Registration</NavLink>
@@ -21,7 +23,7 @@ export const Header = () => {
           )}
         </ul>
       </nav>
-      {user && <UserMenu />}
+      {email && <UserMenu />}
     </header>
   );
 };

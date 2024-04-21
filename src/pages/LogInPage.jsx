@@ -5,7 +5,8 @@ import { IoEye } from "react-icons/io5";
 import { IoEyeOff } from "react-icons/io5";
 import { MainStyled } from "../components/GlobalStyles";
 import { FormStyled } from "./LogInPage.styled";
-import { useLogIn } from "../hooks/useLogIn";
+import { useDispatch } from "react-redux";
+import { logIn } from "../redux/auth/authOperations";
 
 const schema = yup.object().shape({
   email: yup
@@ -20,10 +21,10 @@ const schema = yup.object().shape({
 
 const LogInPage = () => {
   const [isPasswordShown, setIsPasswordShown] = useState(false);
-  const { isPending, signUpMutation: logIn } = useLogIn();
+  const dispatch = useDispatch();
 
   const handleSubmit = (values, { resetForm }) => {
-    logIn(values);
+    dispatch(logIn(values));
     resetForm();
   };
 
@@ -39,7 +40,6 @@ const LogInPage = () => {
   return (
     <MainStyled>
       <section className="section">
-        {isPending && <h1>Loading...</h1>}
         <FormStyled onSubmit={formik.handleSubmit} autoComplete="off">
           <div className="form-input-wrapper">
             <label className="form-label">
@@ -92,7 +92,7 @@ const LogInPage = () => {
             </label>
           </div>
 
-          <button type="submit" className="form-submit" disabled={isPending}>
+          <button type="submit" className="form-submit">
             Log In
           </button>
         </FormStyled>

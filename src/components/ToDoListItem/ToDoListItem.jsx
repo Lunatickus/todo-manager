@@ -13,42 +13,42 @@ export const ToDoListItem = ({
   editToDo,
   updateToDos,
 }) => {
-  const { title, description, isDone, subToDos } = item;
+  const { title, description, completed, id } = item;
 
   const [isEditModalOpen, setIsEditModalOpen] = useState(false);
   const [isAddModalOpen, setIsAddModalOpen] = useState(false);
 
-  const handleAddToDo = (toDo) => {
-    if (subToDos.find((item) => item.title === toDo.title)) {
-      toastError("ToDo already exists!");
-      return;
-    }
+  // const handleAddToDo = (toDo) => {
+  //   if (subToDos.find((item) => item.title === toDo.title)) {
+  //     toastError("ToDo already exists!");
+  //     return;
+  //   }
 
-    subToDos.push(toDo);
-    toastSuccess(`${toDo.title} toDo successfully added!`);
-    updateToDos();
-    setIsAddModalOpen(false);
-  };
+  //   subToDos.push(toDo);
+  //   toastSuccess(`${toDo.title} toDo successfully added!`);
+  //   updateToDos();
+  //   setIsAddModalOpen(false);
+  // };
 
-  const handleChangeToDoStatus = (title) => {
-    const currentToDo = subToDos.find((item) => item.title === title);
-    currentToDo.isDone = !currentToDo.isDone;
-    updateToDos();
-  };
+  // const handleChangeToDoStatus = (title) => {
+  //   const currentToDo = subToDos.find((item) => item.title === title);
+  //   currentToDo.isDone = !currentToDo.isDone;
+  //   updateToDos();
+  // };
 
-  const handleDeleteToDo = (title) => {
-    const currentToDoIndex = subToDos.findIndex((item) => item.title === title);
-    subToDos.splice(currentToDoIndex, 1);
-    updateToDos();
-    toastSuccess(`${title} toDo was deleted`);
-  };
+  // const handleDeleteToDo = (title) => {
+  //   const currentToDoIndex = subToDos.findIndex((item) => item.title === title);
+  //   subToDos.splice(currentToDoIndex, 1);
+  //   updateToDos();
+  //   toastSuccess(`${title} toDo was deleted`);
+  // };
 
-  const handleEditToDo = (title, changes) => {
-    const currentToDoIndex = subToDos.findIndex((item) => item.title === title);
-    subToDos[currentToDoIndex] = { ...subToDos[currentToDoIndex], ...changes };
-    updateToDos();
-    toastSuccess(`${title} toDo was edited`);
-  };
+  // const handleEditToDo = (title, changes) => {
+  //   const currentToDoIndex = subToDos.findIndex((item) => item.title === title);
+  //   subToDos[currentToDoIndex] = { ...subToDos[currentToDoIndex], ...changes };
+  //   updateToDos();
+  //   toastSuccess(`${title} toDo was edited`);
+  // };
 
   return (
     <ToDoItemStyled>
@@ -58,8 +58,8 @@ export const ToDoListItem = ({
           <p className="item-text">Done</p>
           <input
             type="checkbox"
-            checked={isDone}
-            onChange={() => changeToDoStatus(title)}
+            // checked={completed}
+            // onChange={() => changeToDoStatus(title)}
           />
         </div>
       </div>
@@ -76,7 +76,7 @@ export const ToDoListItem = ({
         </button>
         <button
           type="button"
-          onClick={() => removeToDo(title)}
+          onClick={() => removeToDo(id)}
           className="item-btn"
         >
           Delete ToDo
@@ -89,16 +89,6 @@ export const ToDoListItem = ({
           Add SubToDo
         </button>
       </div>
-      {subToDos.length !== 0 && (
-        <ToDoList
-          toDos={subToDos}
-          changeToDoStatus={handleChangeToDoStatus}
-          removeToDo={handleDeleteToDo}
-          editToDo={handleEditToDo}
-          updateToDos={updateToDos}
-          completed={isDone}
-        />
-      )}
       {isEditModalOpen && (
         <Modal closeModal={() => setIsEditModalOpen(false)}>
           <EditToDoForm
@@ -111,7 +101,7 @@ export const ToDoListItem = ({
       )}
       {isAddModalOpen && (
         <Modal closeModal={() => setIsAddModalOpen(false)}>
-          <AddToDoForm addToDo={handleAddToDo} />
+          <AddToDoForm />
         </Modal>
       )}
     </ToDoItemStyled>

@@ -1,19 +1,24 @@
 import { FaUser } from "react-icons/fa";
 import { UserMenuWrapper } from "./UserMenu.styled";
-import { useLogOut } from "../../hooks/useLogOut";
-import { useUser } from "../../hooks/useUser";
+import { useDispatch, useSelector } from "react-redux";
+import { selectUser } from "../../redux/auth/auth.selectors";
+import { logOut } from "../../redux/auth/authOperations";
 
 export const UserMenu = () => {
-  const logOut = useLogOut();
-  const { user } = useUser();
+  const user = useSelector(selectUser);
+  const dispatch = useDispatch();
 
   return (
     <UserMenuWrapper>
       <div className="user-wrapper">
         <FaUser />
-        {user && <p className="user-name">{user.user.name}</p>}
+        {user.email && <p className="user-name">{user.name}</p>}
       </div>
-      <button type="button" className="log-out-button" onClick={logOut}>
+      <button
+        type="button"
+        className="log-out-button"
+        onClick={() => dispatch(logOut())}
+      >
         Log Out
       </button>
     </UserMenuWrapper>
