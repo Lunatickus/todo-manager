@@ -1,4 +1,4 @@
-import{u as t}from"./index-CPF2A1o_.js";const i=t.main`
+import{u as t}from"./index-B17r12tF.js";const i=t.main`
   text-align: center;
 
   .section {
